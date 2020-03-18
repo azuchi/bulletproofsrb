@@ -1,6 +1,9 @@
 require "bulletproofs/version"
+require 'matrix'
 
 module Bulletproofs
   class Error < StandardError; end
-  # Your code goes here...
+
+  autoload :InnerProduct, 'bulletproofs/inner_product'
+
 end
