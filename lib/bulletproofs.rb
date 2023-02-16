@@ -1,19 +1,15 @@
+# frozen_string_literal: true
+
 require "bulletproofs/version"
-require 'matrix'
+require "matrix"
+require "ecdsa"
 
+#  Bulletproof range proof protocol on the secp256k1 curve.
 module Bulletproofs
-  class Error < StandardError; end
-
-  autoload :InnerProduct, 'bulletproofs/inner_product'
-
-end
-
-class Integer
-
-  # Calculate population count this value.
-  # @return [Integer] population count
-  def popcount
-    self.to_s(2).count('1')
+  class Error < StandardError
   end
 
+  autoload :Commitment, "bulletproofs/commitment"
+  autoload :Transcript, "bulletproofs/transcript"
+  autoload :RangeProof, "bulletproofs/range_proof"
 end
