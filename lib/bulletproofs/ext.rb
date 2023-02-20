@@ -16,7 +16,7 @@ module Bulletproofs
       # Convert to hex string.
       # @param [Boolean] compressed Whether compressed format or not.
       # @return [String]
-      def hex(compressed: true)
+      def hex(compressed: false)
         ops = { compression: compressed }
         ECDSA::Format::PointOctetString.encode(self, ops).unpack1("H*")
       end
