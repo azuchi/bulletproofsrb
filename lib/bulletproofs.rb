@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "bulletproofs/version"
-require "matrix"
 require "ecdsa"
 require "securerandom"
 require "json"
