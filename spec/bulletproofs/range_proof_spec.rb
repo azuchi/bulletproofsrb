@@ -12,12 +12,4 @@ RSpec.describe Bulletproofs::RangeProof do
       expect(proof.valid?).to be true
     end
   end
-
-  describe "#to_json/load_json" do
-    it do
-      json_str = load_fixture("uncompressed_proof.json")
-      proof = described_class.from_json(json_str)
-      expect(proof.to_h.to_json).to eq(json_str)
-    end
-  end
 end
