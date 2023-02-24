@@ -6,7 +6,8 @@ module Bulletproofs
     using Ext
     include Util
 
-    ORDER = ECDSA::Group::Secp256k1.order
+    GROUP = ECDSA::Group::Secp256k1
+    ORDER = GROUP.order
     ORDER_HEX = "0x#{ORDER.hex}"
     FIELD = ECDSA::PrimeField.new(ORDER)
 
@@ -15,7 +16,9 @@ module Bulletproofs
     # Powers of 2 up to upper bound
     POWERS = UPPER_EXP.times.map { |i| FIELD.power(2, i) }
 
+    autoload :Base, "bulletproofs/range_proof/base"
     autoload :Uncompressed, "bulletproofs/range_proof/uncompressed"
+    autoload :Compressed, "bulletproofs/range_proof/compressed"
 
     module_function
 

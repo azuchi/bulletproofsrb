@@ -10,6 +10,8 @@ RSpec.describe Bulletproofs::RangeProof do
       value = 25
       proof = described_class.compute(transcript, blind_factor, value)
       expect(proof.valid?).to be true
+      compressed = proof.to_compress
+      expect(compressed.valid?).to be true
     end
   end
 end

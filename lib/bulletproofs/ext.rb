@@ -21,5 +21,11 @@ module Bulletproofs
         ECDSA::Format::PointOctetString.encode(self, ops).unpack1("H*")
       end
     end
+
+    refine ECDSA::Point.singleton_class do
+      def from_hex(hex, group)
+        ECDSA::Format::PointOctetString.decode([hex].pack("H*"), group)
+      end
+    end
   end
 end
