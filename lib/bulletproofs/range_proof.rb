@@ -6,11 +6,6 @@ module Bulletproofs
     using Ext
     include Util
 
-    GROUP = ECDSA::Group::Secp256k1
-    ORDER = GROUP.order
-    ORDER_HEX = "0x#{ORDER.hex}"
-    FIELD = ECDSA::PrimeField.new(ORDER)
-
     # The upper bound of the range proof.
     UPPER_EXP = 64
     # Powers of 2 up to upper bound
