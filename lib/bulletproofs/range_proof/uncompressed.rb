@@ -66,7 +66,7 @@ module Bulletproofs
             n: ORDER_HEX,
             elems: rx.map { |x| "0x#{x.hex}" }
           },
-          G: GROUP.generator.hex,
+          G: GENERATOR_G.hex,
           order: ORDER_HEX
         }
       end
@@ -76,7 +76,7 @@ module Bulletproofs
       # @return [Bulletproofs::RangeProof]
       def self.from_json(json_str)
         json = JSON.parse(json_str)
-        unless json["G"] == GROUP.generator.hex
+        unless json["G"] == GENERATOR_G.hex
           raise ArgumentError, "Unsupported generator specified"
         end
         unless json["order"] == ORDER_HEX

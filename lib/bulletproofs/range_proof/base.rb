@@ -67,11 +67,11 @@ module Bulletproofs
       end
 
       def vec_h
-        @vec_h ||= UPPER_EXP.times.map { GNERATOR_H }
+        @vec_h ||= UPPER_EXP.times.map { GENERATOR_H }
       end
 
       def vec_g
-        @vec_g ||= UPPER_EXP.times.map { GROUP.generator }
+        @vec_g ||= UPPER_EXP.times.map { GENERATOR_G }
       end
 
       def vec_h2
@@ -108,12 +108,12 @@ module Bulletproofs
         lhs = tx_commitment
         # z^2V + δ(y, z)B + xT1 + x^2T2
         rhs =
-          v * zz + GROUP.generator * delta(y_n, z, ORDER) + p_t1 * x + p_t2 * xx
+          v * zz + GENERATOR_G * delta(y_n, z, ORDER) + p_t1 * x + p_t2 * xx
         lhs == rhs
       end
 
       def e_inv
-        @e_inv ||= (GNERATOR_H * e).negate
+        @e_inv ||= (GENERATOR_H * e).negate
       end
 
       def p1

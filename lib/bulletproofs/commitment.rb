@@ -15,7 +15,7 @@ module Bulletproofs
       raise ArgumentError, "v must be integer" unless v.is_a?(Integer)
 
       ECDSA::Group::Secp256k1.generator.multiply_by_scalar(v) +
-        GNERATOR_H.multiply_by_scalar(x)
+        GENERATOR_H.multiply_by_scalar(x)
     end
 
     # Create vector pedersen commitment
@@ -25,7 +25,7 @@ module Bulletproofs
     # @return [ECDSA::Point] Vector pedersen commitment
     def create_vector_pedersen(l, r, x)
       g = ECDSA::Group::Secp256k1.generator
-      h = GNERATOR_H
+      h = GENERATOR_H
       p1 =
         l[1..].inject(g.multiply_by_scalar(l.first)) do |result, f|
           result + g.multiply_by_scalar(f)
