@@ -43,7 +43,7 @@ module Bulletproofs
           uks << ts.challenge_scalar("uk")
         end
 
-        q = GNERATOR_B * w
+        q = GENERATOR_BP * w
         lhs = p1 + q * tx
         l0 = terms.first[:L]
         r0 = terms.first[:R]

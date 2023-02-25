@@ -25,7 +25,7 @@ module Bulletproofs
       raise ArgumentError, "v grater than 2^64" if v > 2.pow(UPPER_EXP)
       raise ArgumentError, "v lower than 0" if v.negative?
 
-      commitment = Commitment.create(bf, v)
+      commitment = Commitment.create(bf, v).to_projective
 
       # convert value to binary
       binary = v.to_s(2).each_char.to_a.reverse.map(&:to_i)
@@ -39,7 +39,7 @@ module Bulletproofs
 
       # generate vector pedersen commitment
       a_bf = SecureRandom.random_number(ORDER)
-      a_com = Commitment.create_vector_pedersen(a_L, a_R, a_bf)
+      a_com = Commitment.create_vector_pedersen(a_L, a_R, a_bf).to_projective
       transcript.points << a_com
 
       # Prove 3 statements.
@@ -51,7 +51,7 @@ module Bulletproofs
       s_L = POWERS.length.times.map { SecureRandom.random_number(ORDER) }
       s_R = POWERS.length.times.map { SecureRandom.random_number(ORDER) }
       s_bf = SecureRandom.random_number(ORDER)
-      s_com = Commitment.create_vector_pedersen(s_L, s_R, s_bf)
+      s_com = Commitment.create_vector_pedersen(s_L, s_R, s_bf).to_projective
       transcript.points << s_com
 
       # Calculate challenge y and z by H(st, A, S)
@@ -119,8 +119,8 @@ module Bulletproofs
       t1_bf = SecureRandom.random_number(ORDER)
       t2_bf = SecureRandom.random_number(ORDER)
 
-      t1_com = Commitment.create(t1_bf, t1)
-      t2_com = Commitment.create(t2_bf, t2)
+      t1_com = Commitment.create(t1_bf, t1).to_projective
+      t2_com = Commitment.create(t2_bf, t2).to_projective
       transcript.points << t1_com
       transcript.points << t2_com
 
@@ -134,11 +134,11 @@ module Bulletproofs
       e = FIELD.mod(a_bf + x * s_bf)
 
       Uncompressed.new(
-        commitment,
-        a_com,
-        s_com,
-        t1_com,
-        t2_com,
+        commitment.to_affine,
+        a_com.to_affine,
+        s_com.to_affine,
+        t1_com.to_affine,
+        t2_com.to_affine,
         tx,
         tx_bf,
         e,

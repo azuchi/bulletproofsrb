@@ -47,7 +47,7 @@ module Bulletproofs
       # Compute tx commitment using tx and tx_bf.
       # @return [ECDSA::Point]
       def tx_commitment
-        Commitment.create(tx_bf, tx)
+        Commitment.create(tx_bf, tx).to_projective
       end
 
       def y_n
@@ -67,11 +67,11 @@ module Bulletproofs
       end
 
       def vec_h
-        @vec_h ||= UPPER_EXP.times.map { GENERATOR_H }
+        @vec_h ||= UPPER_EXP.times.map { GENERATOR_HP }
       end
 
       def vec_g
-        @vec_g ||= UPPER_EXP.times.map { GENERATOR_G }
+        @vec_g ||= UPPER_EXP.times.map { GENERATOR_GP }
       end
 
       def vec_h2
@@ -108,26 +108,26 @@ module Bulletproofs
         lhs = tx_commitment
         # z^2V + δ(y, z)B + xT1 + x^2T2
         rhs =
-          v * zz + GENERATOR_G * delta(y_n, z, ORDER) + p_t1 * x + p_t2 * xx
+          v.to_projective * zz + GENERATOR_GP * delta(y_n, z, ORDER) + p_t1.to_projective * x + p_t2.to_projective * xx
         lhs == rhs
       end
 
       def e_inv
-        @e_inv ||= (GENERATOR_H * e).negate
+        @e_inv ||= (GENERATOR_HP * e).negate
       end
 
       def p1
         @p1 ||=
-          e_inv + p_a + p_s * x +
-            vec_h2.zip(l1).map { |a, b| a * b }.sum(GROUP.infinity) +
-            vec_g.map { |v| v * z }.sum(GROUP.infinity).negate
+          e_inv + p_a.to_projective + p_s.to_projective * x +
+            vec_h2.zip(l1).map { |a, b| a * b }.sum(INFINITY_P) +
+            vec_g.map { |v| v * z }.sum(INFINITY_P).negate
       end
 
       def p2
         @p2 ||=
-          e_inv + p_a + p_s * x +
-            vec_h.zip(l2).map { |a, b| a * b }.sum(GROUP.infinity) +
-            vec_g.map { |v| v * z }.sum(GROUP.infinity).negate
+          e_inv + p_a.to_projective + p_s.to_projective * x +
+            vec_h.zip(l2).map { |a, b| a * b }.sum(INFINITY_P) +
+            vec_g.map { |v| v * z }.sum(INFINITY_P).negate
       end
     end
   end
