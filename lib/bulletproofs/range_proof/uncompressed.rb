@@ -139,12 +139,10 @@ module Bulletproofs
 
           l_k =
             g_hi.zip(a_lo).map { |x, y| x * y }.sum(INFINITY_P) +
-              h_lo.zip(b_hi).map { |x, y| x * y }.sum(INFINITY_P) +
-              q * alo_bhi
+              h_lo.zip(b_hi).map { |x, y| x * y }.sum(INFINITY_P) + q * alo_bhi
           r_k =
             g_lo.zip(a_hi).map { |x, y| x * y }.sum(INFINITY_P) +
-              h_hi.zip(b_lo).map { |x, y| x * y }.sum(INFINITY_P) +
-              q * ahi_blo
+              h_hi.zip(b_lo).map { |x, y| x * y }.sum(INFINITY_P) + q * ahi_blo
 
           ts.points << l_k
           ts.points << r_k

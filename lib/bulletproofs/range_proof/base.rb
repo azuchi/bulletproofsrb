@@ -108,7 +108,8 @@ module Bulletproofs
         lhs = tx_commitment
         # z^2V + δ(y, z)B + xT1 + x^2T2
         rhs =
-          v.to_projective * zz + GENERATOR_GP * delta(y_n, z, ORDER) + p_t1.to_projective * x + p_t2.to_projective * xx
+          v.to_projective * zz + GENERATOR_GP * delta(y_n, z, ORDER) +
+            p_t1.to_projective * x + p_t2.to_projective * xx
         lhs == rhs
       end
 
