@@ -1,40 +1,33 @@
 # frozen_string_literal: true
 
 module Bulletproofs
-  # Perdersen Commitment
+  # Pedersen Commitment
   module Commitment
     module_function
 
     # Create pedersen commitment(xG + vH).
     # @param [Integer] x Blind factor.
     # @param [Integer] v value
-    # @return [ECDSA::Point] pedersen commitment
+    # @return [ECDSA::Ext::ProjectivePoint] pedersen commitment
     # @raise [ArgumentError]
     def create(x, v)
       raise ArgumentError, "x must be integer" unless x.is_a?(Integer)
       raise ArgumentError, "v must be integer" unless v.is_a?(Integer)
 
-      ECDSA::Group::Secp256k1.generator.multiply_by_scalar(v) +
-        GENERATOR_H.multiply_by_scalar(x)
+      GENERATOR_GP * v + GENERATOR_HP * x
     end
 
     # Create vector pedersen commitment
     # @param [Array(Integer)] l vector
     # @param [Array(Integer)] r vector
     # @param [Integer] x Blind factor
-    # @return [ECDSA::Point] Vector pedersen commitment
+    # @return [ECDSA::Ext::ProjectivePoint] Vector pedersen commitment
     def create_vector_pedersen(l, r, x)
-      g = ECDSA::Group::Secp256k1.generator
-      h = GENERATOR_H
-      p1 =
-        l[1..].inject(g.multiply_by_scalar(l.first)) do |result, f|
-          result + g.multiply_by_scalar(f)
-        end
-      p2 =
-        r[1..].inject(h.multiply_by_scalar(r.first)) do |result, f|
-          result + h.multiply_by_scalar(f)
-        end
-      p1 + p2 + h.multiply_by_scalar(x)
+      g = GENERATOR_GP
+      h = GENERATOR_HP
+      p1 = l.inject(INFINITY_P) { |result, f| result + g * f }
+      p2 = r.inject(INFINITY_P) { |result, f| result + h * f }
+      p1 + p2 + h * x
     end
   end
 end

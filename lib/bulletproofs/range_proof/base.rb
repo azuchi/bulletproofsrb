@@ -47,7 +47,7 @@ module Bulletproofs
       # Compute tx commitment using tx and tx_bf.
       # @return [ECDSA::Point]
       def tx_commitment
-        Commitment.create(tx_bf, tx).to_projective
+        Commitment.create(tx_bf, tx)
       end
 
       def y_n

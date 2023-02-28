@@ -18,7 +18,12 @@ module Bulletproofs
       # TODO: use library like merlin
       payload = label
       payload +=
-        points.map { |p| ECDSA::Format::PointOctetString.encode(p) }.join
+        points
+          .map do |p|
+            dst = p.is_a?(ECDSA::Ext::ProjectivePoint) ? p.to_affine : p
+            ECDSA::Format::PointOctetString.encode(dst)
+          end
+          .join
       h = Digest::SHA256.digest(payload)
       h.unpack1("H*").hex % GROUP.order
     end
