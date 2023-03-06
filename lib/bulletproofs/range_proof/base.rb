@@ -118,11 +118,6 @@ module Bulletproofs
       end
 
       def p1
-        t = e_inv
-        t2 = p_a.to_jacobian
-        t3 = p_s.to_jacobian
-        t4 = vec_h2
-        t5 = vec_g
         @p1 ||=
           e_inv + p_a.to_jacobian + p_s.to_jacobian * x +
             vec_h2.zip(l1).map { |a, b| a * b }.sum(INFINITY_J) +
