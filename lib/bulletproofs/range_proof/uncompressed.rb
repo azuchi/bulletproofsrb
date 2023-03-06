@@ -103,7 +103,7 @@ module Bulletproofs
         b = rx.dup
         ts = transcript.dup
         w = ts.challenge_scalar("w")
-        q = GENERATOR_BP * w
+        q = GENERATOR_BJ * w
 
         a_sum = a.dup
         b_sum = b.dup
@@ -138,11 +138,11 @@ module Bulletproofs
           ahi_blo = a_hi.zip(b_lo).map { |x, y| FIELD.mod(x * y) }.sum
 
           l_k =
-            g_hi.zip(a_lo).map { |x, y| x * y }.sum(INFINITY_P) +
-              h_lo.zip(b_hi).map { |x, y| x * y }.sum(INFINITY_P) + q * alo_bhi
+            g_hi.zip(a_lo).map { |x, y| x * y }.sum(INFINITY_J) +
+              h_lo.zip(b_hi).map { |x, y| x * y }.sum(INFINITY_J) + q * alo_bhi
           r_k =
-            g_lo.zip(a_hi).map { |x, y| x * y }.sum(INFINITY_P) +
-              h_hi.zip(b_lo).map { |x, y| x * y }.sum(INFINITY_P) + q * ahi_blo
+            g_lo.zip(a_hi).map { |x, y| x * y }.sum(INFINITY_J) +
+              h_hi.zip(b_lo).map { |x, y| x * y }.sum(INFINITY_J) + q * ahi_blo
 
           ts.points << l_k
           ts.points << r_k

@@ -67,11 +67,11 @@ module Bulletproofs
       end
 
       def vec_h
-        @vec_h ||= UPPER_EXP.times.map { GENERATOR_HP }
+        @vec_h ||= UPPER_EXP.times.map { GENERATOR_HJ }
       end
 
       def vec_g
-        @vec_g ||= UPPER_EXP.times.map { GENERATOR_GP }
+        @vec_g ||= UPPER_EXP.times.map { GENERATOR_GJ }
       end
 
       def vec_h2
@@ -108,27 +108,32 @@ module Bulletproofs
         lhs = tx_commitment
         # z^2V + δ(y, z)B + xT1 + x^2T2
         rhs =
-          v.to_projective * zz + GENERATOR_GP * delta(y_n, z, ORDER) +
-            p_t1.to_projective * x + p_t2.to_projective * xx
+          v.to_jacobian * zz + GENERATOR_GJ * delta(y_n, z, ORDER) +
+            p_t1.to_jacobian * x + p_t2.to_jacobian * xx
         lhs == rhs
       end
 
       def e_inv
-        @e_inv ||= (GENERATOR_HP * e).negate
+        @e_inv ||= (GENERATOR_HJ * e).negate
       end
 
       def p1
+        t = e_inv
+        t2 = p_a.to_jacobian
+        t3 = p_s.to_jacobian
+        t4 = vec_h2
+        t5 = vec_g
         @p1 ||=
-          e_inv + p_a.to_projective + p_s.to_projective * x +
-            vec_h2.zip(l1).map { |a, b| a * b }.sum(INFINITY_P) +
-            vec_g.map { |v| v * z }.sum(INFINITY_P).negate
+          e_inv + p_a.to_jacobian + p_s.to_jacobian * x +
+            vec_h2.zip(l1).map { |a, b| a * b }.sum(INFINITY_J) +
+            vec_g.map { |v| v * z }.sum(INFINITY_J).negate
       end
 
       def p2
         @p2 ||=
-          e_inv + p_a.to_projective + p_s.to_projective * x +
-            vec_h.zip(l2).map { |a, b| a * b }.sum(INFINITY_P) +
-            vec_g.map { |v| v * z }.sum(INFINITY_P).negate
+          e_inv + p_a.to_jacobian + p_s.to_jacobian * x +
+            vec_h.zip(l2).map { |a, b| a * b }.sum(INFINITY_J) +
+            vec_g.map { |v| v * z }.sum(INFINITY_J).negate
       end
     end
   end

@@ -20,7 +20,7 @@ module Bulletproofs
       payload +=
         points
           .map do |p|
-            dst = p.is_a?(ECDSA::Ext::ProjectivePoint) ? p.to_affine : p
+            dst = p.is_a?(ECDSA::Point) ? p : p.to_affine
             ECDSA::Format::PointOctetString.encode(dst)
           end
           .join
