@@ -13,6 +13,8 @@ module Bulletproofs
     def create(x, v)
       raise ArgumentError, "x must be integer" unless x.is_a?(Integer)
       raise ArgumentError, "v must be integer" unless v.is_a?(Integer)
+      raise ArgumentError, "x must be positive" unless x.positive?
+      raise ArgumentError, "v must be positive" unless v.positive?
 
       GENERATOR_GJ * v + GENERATOR_HJ * x
     end
