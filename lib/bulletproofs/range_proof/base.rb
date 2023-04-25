@@ -29,6 +29,7 @@ module Bulletproofs
         @tx_bf = tx_bf
         @e = e
         @transcript = Transcript.new(dst)
+        @transcript.points << v
         @transcript.points << a
         @transcript.points << s
         @y = @transcript.challenge_scalar("y")

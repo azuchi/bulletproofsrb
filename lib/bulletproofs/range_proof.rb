@@ -37,6 +37,8 @@ module Bulletproofs
         raise Error, "a_L * a_R has to be 0"
       end
 
+      transcript.points << commitment
+
       # generate vector pedersen commitment
       a_bf = SecureRandom.random_number(ORDER)
       a_com = Commitment.create_vector_pedersen(a_L, a_R, a_bf)
